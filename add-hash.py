@@ -7,14 +7,23 @@ from KlAkOAPI.Params import KlAkArray, paramArray, paramParams
 
 parser = argparse.ArgumentParser(description='Чтение содержимого файла')
     
-    # Добавляем параметр -p (обязательный)
+# Добавляем параметр -p (обязательный)
 parser.add_argument(
     '-p', 
     '--path', 
     type=str, 
-    required=True,
+    required=False,
     help='Путь к файлу для чтения'
 )
+
+parser.add_argument(
+    '-s', 
+    '--server', 
+    type=str, 
+    required=False,
+    help='IP адрес или сетевое имя сервера KSC'
+)
+
 
 args = parser.parse_args()
 
