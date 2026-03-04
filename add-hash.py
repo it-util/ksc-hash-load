@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from KlAkOAPI.AdmServer import KlAkAdmServer
 from KlAkOAPI.SrvView import KlAkSrvView
@@ -28,7 +29,17 @@ parser.add_argument(
 args = parser.parse_args()
 
 file_path = args.path
+server_addr = args.server
 
 with open(file_path, 'r', encoding='utf-8') as f:
     content = f.read()
 
+hash_arr = content.split('\n')
+print(hash_arr)
+
+# Подключение к серверу KSC 
+try:
+    server = KlAkAdmServer.Create(server_addr, username, password, verify=False)
+except Exception as e:
+    print(f"Ошибка подключения к серверу: {e}")
+    sys.exit()
