@@ -44,4 +44,33 @@ username = "KLAdmin"
 password = "31VB*hs!6%Qz"
 
 server = KlAkAdmServer.Create(server_url, username, password, verify=False)
+
+# Подключение к серверу
 fc = KlAkFileCategorizer2(server)
+oSrvView = KlAkSrvView(server)
+
+# Запуск итератора для получения категорий
+wstrIteratorId = oSrvView.ResetIterator(
+    "customcategories",
+    "",
+    KlAkArray(["id", "name"]),
+    [],
+    {},
+    300
+).OutPar("wstrIteratorId")
+
+try:
+    # Получение количества записей
+    count = oSrvView.GetRecordCount(wstrIteratorId).RetVal()
+    if count == 0:
+        self.categories_loaded.emit([])
+        return
+
+    # Получение всех записей
+    records = oSrvView.GetRecordRange(wstrIteratorId, 0, count).OutPar("pRecords")
+    categories = []
+
+    # Извлечение имен категорий
+    for item in records["KLCSP_ITERATOR_ARRAY"]:
+        if "id" in item and "name" in item:
+            categories.append(item["name"])
