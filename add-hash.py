@@ -101,19 +101,19 @@ category_id = getCategoryId(oSrvView, wstrIteratorId)
 # Подключение к серверу
 fc = KlAkFileCategorizer2(server)
 
-try:
+# try:
     # Получаем текущие данные категории
-    oCategoryData = fc.GetCategory(nCategoryId=category_id)
-    oCatProps = oCategoryData.respose_text["pCategory"]
+oCategoryData = fc.GetCategory(nCategoryId=category_id)
+oCatProps = oCategoryData.respose_text["pCategory"]
         
     # Добавляем новые выражения в секцию включений
-    target_field = "inclusions"
-    current_list = oCatProps.get(target_field, [])
+target_field = "inclusions"
+current_list = oCatProps.get(target_field, [])
         
-    for expr in expressions:
-        current_list.append(expr)
+for expr in expressions:
+    current_list.append(expr)
         
-    oCatProps[target_field] = current_list
+oCatProps[target_field] = current_list
         
     # # Убеждаемся, что CategoryFilter настроен правильно
     # if "CategoryFilter" not in oCatProps:
@@ -128,4 +128,4 @@ try:
     #         cat_filter["MetadataFlag"] = 256
         
     # Обновляем категорию
-    result = fc.UpdateCategory(nCategoryId=category_id, pCategory=oCatProps)
+result = fc.UpdateCategory(nCategoryId=category_id, pCategory=oCatProps)
