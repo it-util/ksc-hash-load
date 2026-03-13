@@ -1,3 +1,0 @@
-PyQt5>=5.15.0
-KlAkOAPI>=1.0.0
-urllib3>=1.26.0

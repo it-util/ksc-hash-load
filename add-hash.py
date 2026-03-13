@@ -27,6 +27,14 @@ parser.add_argument(
     help='IP адрес или сетевое имя сервера KSC'
 )
 
+parser.add_argument(
+    '-c', 
+    '--category', 
+    type=str, 
+    required=False,
+    help='Название категории, которую необходимо '
+)
+
 args = parser.parse_args()
 
 file_path = args.path # сохранение в переменную file_path путя до файла
@@ -66,26 +74,26 @@ wstrIteratorId = oSrvView.ResetIterator(
     300                    # Размер пакета
 ).OutPar("wstrIteratorId")
 
-function getCategoryId(oSrvView, wstrIteratorId) {
+def getCategoryId(oSrvView, wstrIteratorId):
     try:
     # Получаем количество записей
-    count = oSrvView.GetRecordCount(wstrIteratorId).RetVal()
-    if count == 0:
-        return None
+        count = oSrvView.GetRecordCount(wstrIteratorId).RetVal()
+        if count == 0:
+            return None
             
-    # Получаем все записи
-    records = oSrvView.GetRecordRange(wstrIteratorId, 0, count).OutPar("pRecords")
+        # Получаем все записи
+        records = oSrvView.GetRecordRange(wstrIteratorId, 0, count).OutPar("pRecords")
         
-    # Ищем категорию с нужным именем
-    for item in records["KLCSP_ITERATOR_ARRAY"]:
-        if "id" in item and "name" in item:
-            if item["name"].lower() == category_name.lower():
-                return item["id"]
-    return None
+        # Ищем категорию с нужным именем
+        for item in records["KLCSP_ITERATOR_ARRAY"]:
+            if "id" in item and "name" in item:
+                if item["name"].lower() == category_name.lower():
+                    return item["id"]
+        return None
     finally:
         # Важно освободить итератор
         oSrvView.ReleaseIterator(wstrIteratorId)
-}
+
 
 category_id = getCategoryId(oSrvView, wstrIteratorId)
 
