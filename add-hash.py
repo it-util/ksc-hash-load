@@ -56,9 +56,9 @@ for md5 in md5_hashes:
         })
         expressions.append(expr)
 
-server_url = "http://192.168.1.90"
-username = "KLAdmin"
-password = "31VB*hs!6%Qz"
+server_url = sys.server_ksc
+username =  sys.username_ksc
+password = sys.password_ksc
 
 server = KlAkAdmServer.Create(server_url, username, password, verify=False)
 
